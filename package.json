@@ -10,7 +10,9 @@
     "commit": "git-cz",
     "dev": "node --watch dist/index.js",
     "build": "pnpm tsc --build",
+    "drizzle": "pnpm drizzle:push && pnpm drizzle:records",
     "drizzle:push": "pnpm drizzle-kit push --config=src/config/drizzle.config.ts",
+    "drizzle:records": "pnpm tsx src/db/records/db-records.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "config": {
@@ -45,6 +47,7 @@
   },
   "dependencies": {
     "@libsql/client": "^0.17.4",
+    "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
