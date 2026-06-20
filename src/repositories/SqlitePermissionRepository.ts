@@ -1,23 +1,15 @@
 import { eq } from 'drizzle-orm'
-import { SQLITE_DB_FILE_NAME } from '../config/index.js'
 import { sqlitePermissionsTable } from '../db/schemas/sqlite.js'
 import type { IBaseRepository } from '../interfaces/index.js'
 import { Permission } from '../models/index.js'
-import { createClient } from '@libsql/client'
-import { drizzle } from 'drizzle-orm/libsql'
 import { baseSchema } from '../schemas/base-schema.js'
-
-type PermissionInsert = typeof sqlitePermissionsTable.$inferInsert
-
-const client = createClient({ url: SQLITE_DB_FILE_NAME })
-const db = drizzle({ client })
+import { sqlite } from './databases.js'
 
 export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   async add(entity: Permission): Promise<void> {
-    const permissionMapped: PermissionInsert =
-      await this.mapToPermissionInsert(entity)
+    const permissionMapped = await this.mapToPermissionInsert(entity)
 
-    const { rowsAffected } = await db
+    const { rowsAffected } = await sqlite
       .insert(sqlitePermissionsTable)
       .values(permissionMapped)
 
@@ -25,10 +17,9 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   }
 
   async edit(entity: Permission): Promise<void> {
-    const permissionMapped: PermissionInsert =
-      await this.mapToPermissionInsert(entity)
+    const permissionMapped = await this.mapToPermissionInsert(entity)
 
-    const { rowsAffected } = await db
+    const { rowsAffected } = await sqlite
       .update(sqlitePermissionsTable)
       .set({
         name: permissionMapped.name,
@@ -40,7 +31,7 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   }
 
   async remove(id: string): Promise<void> {
-    const { rowsAffected } = await db
+    const { rowsAffected } = await sqlite
       .delete(sqlitePermissionsTable)
       .where(eq(sqlitePermissionsTable.id, id))
 
@@ -48,7 +39,7 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   }
 
   async findAll(): Promise<Permission[]> {
-    const permissions = await db.select().from(sqlitePermissionsTable)
+    const permissions = await sqlite.select().from(sqlitePermissionsTable)
 
     return !permissions.length
       ? []
@@ -60,7 +51,7 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   }
 
   async findOne(id: string): Promise<Permission | null> {
-    const [permission] = await db
+    const [permission] = await sqlite
       .select()
       .from(sqlitePermissionsTable)
       .where(eq(sqlitePermissionsTable.id, id))
@@ -69,7 +60,7 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   }
 
   async ensureAlreadyExists(name: string): Promise<boolean> {
-    const [exists] = await db
+    const [exists] = await sqlite
       .select({ name: sqlitePermissionsTable.name })
       .from(sqlitePermissionsTable)
       .where(eq(sqlitePermissionsTable.name, name))
@@ -79,7 +70,7 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
 
   private async mapToPermissionInsert(
     permission: Permission
-  ): Promise<PermissionInsert> {
+  ): Promise<typeof sqlitePermissionsTable.$inferInsert> {
     return {
       id: permission.id,
       name: permission.name,
@@ -88,7 +79,7 @@ export class SqlitePermissionRepository implements IBaseRepository<Permission> {
   }
 
   private async mapToPermission(
-    permission: PermissionInsert
+    permission: typeof sqlitePermissionsTable.$inferInsert
   ): Promise<Permission> {
     const permissionParsed = await baseSchema.parseAsync(permission)
 
