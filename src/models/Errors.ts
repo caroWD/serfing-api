@@ -67,3 +67,17 @@ export class AccountantPositionAlreadyExistsError extends Error {
     this.name = 'PermissionAlreadyExistsError'
   }
 }
+
+export class EngineerPositionNotFoundError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'PermissionNotFoundError'
+  }
+}
+
+export class EngineerPositionAlreadyExistsError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'PermissionAlreadyExistsError'
+  }
+}

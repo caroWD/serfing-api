@@ -3,6 +3,7 @@ import { sqliteAccountantPositionsTable } from '../db/schemas/index.js'
 import type { IBaseRepository } from '../interfaces/index.js'
 import { AccountantPosition } from '../models/index.js'
 import { sqlite } from './databases.js'
+import { baseSchema } from '../schemas/base-schema.js'
 
 export class SqliteAccountantPositionRepository implements IBaseRepository<AccountantPosition> {
   async add(entity: AccountantPosition): Promise<void> {
@@ -85,10 +86,13 @@ export class SqliteAccountantPositionRepository implements IBaseRepository<Accou
   private async mapToAccountantPosition(
     accountantPosition: typeof sqliteAccountantPositionsTable.$inferSelect
   ): Promise<AccountantPosition> {
+    const accountantPositionParsed =
+      await baseSchema.parseAsync(accountantPosition)
+
     return new AccountantPosition(
-      accountantPosition.id,
-      accountantPosition.name,
-      accountantPosition.description
+      accountantPositionParsed.id,
+      accountantPositionParsed.name,
+      accountantPositionParsed.description
     )
   }
 }
