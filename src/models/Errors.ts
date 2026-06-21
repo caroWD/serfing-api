@@ -39,3 +39,17 @@ export class RoleAlreadyHasThatPermissionError extends Error {
     this.name = 'RoleAlreadyHasThatPermissionError'
   }
 }
+
+export class OperatorTypeNotFoundError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'PermissionNotFoundError'
+  }
+}
+
+export class OperatorTypeAlreadyExistsError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'PermissionAlreadyExistsError'
+  }
+}
