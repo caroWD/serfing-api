@@ -1,2 +1,6 @@
 export * from './PermissionService.js'
 export * from './RoleService.js'
+export * from './OperatorTypeService.js'
+export * from './AccountantPositionService.js'
+export * from './EngineerPositionService.js'
+export * from './SaleTypeService.js'

@@ -1,19 +1,19 @@
 import { Base } from './Base.js'
 
-export class Permission extends Base {
+export class OperatorType extends Base {
   constructor(id: string, name: string, description: string) {
     super(id, name, description)
   }
 }
 
-export class PermissionNotFoundError extends Error {
+export class OperatorTypeNotFoundError extends Error {
   constructor(message: string) {
     super(message)
     this.name = 'PermissionNotFoundError'
   }
 }
 
-export class PermissionAlreadyExistsError extends Error {
+export class OperatorTypeAlreadyExistsError extends Error {
   constructor(message: string) {
     super(message)
     this.name = 'PermissionAlreadyExistsError'

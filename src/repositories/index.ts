@@ -1,2 +1,6 @@
 export * from './SqlitePermissionRepository.js'
 export * from './SqliteRoleRepository.js'
+export * from './SqliteOperatorTypeRepository.js'
+export * from './SqliteAccountantPositionRepository.js'
+export * from './SqliteEngineerPositionRepository.js'
+export * from './SqliteSaleTypeRepository.js'
