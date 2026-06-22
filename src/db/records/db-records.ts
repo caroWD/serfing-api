@@ -5,6 +5,7 @@ import {
   sqliteAccountantPositionsTable,
   sqliteBusinessAreasTable,
   sqliteContractTypesTable,
+  sqliteEducationDegreesTable,
   sqliteEngineerPositionsTable,
   sqliteHierarciesTable,
   sqliteOperatorTypesTable,
@@ -18,6 +19,7 @@ import {
   sqliteAccountantPositionsRecords,
   sqliteBusinessAreasRecords,
   sqliteContractTypesRecords,
+  sqliteEducationDegreesRecords,
   sqliteEngineerPositionsRecords,
   sqliteHierarciesRecords,
   sqliteOperatorTypesRecords,
@@ -57,6 +59,10 @@ const main = async (): Promise<void> => {
   await db.insert(sqliteOperatorTypesTable).values(sqliteOperatorTypesRecords)
 
   await db.insert(sqliteSaleTypesTable).values(sqliteSaleTypesRecords)
+
+  await db
+    .insert(sqliteEducationDegreesTable)
+    .values(sqliteEducationDegreesRecords)
 
   await db.insert(sqliteUsersTable).values(sqliteUsersRecords)
 }
