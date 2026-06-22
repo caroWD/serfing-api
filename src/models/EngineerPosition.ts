@@ -9,13 +9,13 @@ export class EngineerPosition extends Base {
 export class EngineerPositionNotFoundError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'PermissionNotFoundError'
+    this.name = 'EngineerPositionNotFoundError'
   }
 }
 
 export class EngineerPositionAlreadyExistsError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'PermissionAlreadyExistsError'
+    this.name = 'EngineerPositionAlreadyExistsError'
   }
 }
