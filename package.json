@@ -8,8 +8,11 @@
   "private": true,
   "scripts": {
     "commit": "git-cz",
-    "dev": "node --watch dist/index.ts",
+    "dev": "node --watch dist/index.js",
     "build": "pnpm tsc --build",
+    "drizzle": "pnpm drizzle:push && pnpm drizzle:records",
+    "drizzle:push": "pnpm drizzle-kit push --config=src/config/drizzle.config.ts",
+    "drizzle:records": "pnpm tsx src/db/records/db-records.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "config": {
@@ -27,14 +30,30 @@
     "@commitlint/cz-commitlint": "^21.0.2",
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^2.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@types/node": "^26.0.0",
     "commitizen": "^4.3.2",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.6.0",
     "inquirer": "^9.3.8",
     "prettier": "^3.8.4",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.4",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "temporal-polyfill": "^1.0.1",
+    "zod": "^4.4.3"
   }
 }

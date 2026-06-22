@@ -117,7 +117,7 @@ dist
 .dynamodb/
 
 # Drizzle Local DB
-loca.db
+local.db
 
 # TernJS port file
 .tern-port
