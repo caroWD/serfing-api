@@ -9,8 +9,11 @@ import { contractTypeRouter } from './contract-type-router.js'
 import { educationDegreeRouter } from './education-degree-router.js'
 import { businessAreaRouter } from './business-area-router.js'
 import { hierarchyRouter } from './hierarchy-router.js'
+import { userRouter } from './user-router.js'
 
 export const routes: Router = Router()
+
+routes.use('/user', userRouter)
 
 routes.use('/user/permission', permissionRouter)
 routes.use('/user/role', roleRouter)

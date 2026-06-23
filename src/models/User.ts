@@ -14,6 +14,7 @@ export class User {
   private _email: string
   private _password: string
   private _state: State
+  private _roleId: string
   private _createdAt: Tempo
   private _updatedAt: Tempo
   private _deletedAt: TempoDeleted
@@ -26,6 +27,7 @@ export class User {
     email: string,
     password: string,
     state: State,
+    roleId: string,
     createdAt: Tempo,
     updatedAt: Tempo,
     deletedAt: TempoDeleted
@@ -37,6 +39,7 @@ export class User {
     this._email = email
     this._password = password
     this._state = state
+    this._roleId = roleId
     this._createdAt = createdAt
     this._updatedAt = updatedAt
     this._deletedAt = deletedAt
@@ -70,6 +73,10 @@ export class User {
     return this._state
   }
 
+  get roleId(): string {
+    return this._roleId
+  }
+
   get createdAt(): Tempo {
     return this._createdAt
   }
@@ -80,5 +87,33 @@ export class User {
 
   get deletedAt(): TempoDeleted {
     return this._deletedAt
+  }
+}
+
+export class UserNotFoundError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'UserNotFoundError'
+  }
+}
+
+export class UserHandleAlreadyExistsError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'UserHandleAlreadyExistsError'
+  }
+}
+
+export class UserEmailAlreadyExistsError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'UserEmailAlreadyExistsError'
+  }
+}
+
+export class UserUnauthorizedError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'UserUnauthorizedError'
   }
 }

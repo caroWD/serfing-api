@@ -19,6 +19,7 @@ export class Engineer extends Collaborator {
     contractTypeId: string,
     engineerPositionId: string,
     state: State,
+    roleId: string,
     createdAt: Tempo,
     updatedAt: Tempo,
     deletedAt: TempoDeleted
@@ -37,6 +38,7 @@ export class Engineer extends Collaborator {
       educationDegreeId,
       contractTypeId,
       state,
+      roleId,
       createdAt,
       updatedAt,
       deletedAt

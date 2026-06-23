@@ -53,6 +53,7 @@
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
+    "jose": "^6.2.3",
     "temporal-polyfill": "^1.0.1",
     "zod": "^4.4.3"
   }
