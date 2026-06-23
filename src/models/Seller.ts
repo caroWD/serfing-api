@@ -21,6 +21,7 @@ export class Seller extends Collaborator {
     commissionRate: number,
     saleTypeId: string,
     state: State,
+    roleId: string,
     createdAt: Tempo,
     updatedAt: Tempo,
     deletedAt: TempoDeleted
@@ -39,6 +40,7 @@ export class Seller extends Collaborator {
       educationDegreeId,
       contractTypeId,
       state,
+      roleId,
       createdAt,
       updatedAt,
       deletedAt

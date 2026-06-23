@@ -19,6 +19,7 @@ export class Operator extends Collaborator {
     contractTypeId: string,
     operatorTypeId: string,
     state: State,
+    roleId: string,
     createdAt: Tempo,
     updatedAt: Tempo,
     deletedAt: TempoDeleted
@@ -37,6 +38,7 @@ export class Operator extends Collaborator {
       educationDegreeId,
       contractTypeId,
       state,
+      roleId,
       createdAt,
       updatedAt,
       deletedAt

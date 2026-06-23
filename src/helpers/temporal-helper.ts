@@ -1,13 +1,13 @@
 import { Temporal } from 'temporal-polyfill'
 
-export const getTemporalNow = (): Temporal.PlainDateTime =>
-  Temporal.Now.plainDateTimeISO(Temporal.Now.timeZoneId())
+export const getTemporalNow = (): Temporal.PlainDate =>
+  Temporal.Now.plainDateISO(Temporal.Now.timeZoneId())
 
-export const getTemporalFrom = (from: string): Temporal.PlainDateTime =>
-  Temporal.PlainDateTime.from(from)
+export const getTemporalFrom = (from: string): Temporal.PlainDate =>
+  Temporal.PlainDate.from(from)
 
 export const compareTemporal = (
-  compare: Temporal.PlainDateTime,
-  reference: Temporal.PlainDateTime
+  compare: Temporal.PlainDate,
+  reference: Temporal.PlainDate
 ): boolean =>
-  Temporal.PlainDateTime.compare(compare, reference) > 0 ? false : true
+  Temporal.PlainDate.compare(compare, reference) > 0 ? false : true

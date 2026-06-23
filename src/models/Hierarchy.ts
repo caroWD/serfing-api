@@ -1,21 +1,21 @@
 import { Base } from './Base.js'
 
-export class SaleType extends Base {
+export class Hierarchy extends Base {
   constructor(id: string, name: string, description: string) {
     super(id, name, description)
   }
 }
 
-export class SaleTypeNotFoundError extends Error {
+export class HierarchyNotFoundError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'SaleTypeNotFoundError'
+    this.name = 'HierarchyNotFoundError'
   }
 }
 
-export class SaleTypeAlreadyExistsError extends Error {
+export class HierarchyAlreadyExistsError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'SaleTypeAlreadyExistsError'
+    this.name = 'HierarchyAlreadyExistsError'
   }
 }

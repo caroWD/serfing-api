@@ -1,0 +1,90 @@
+import * as z from 'zod'
+
+const passwordSchema = z
+  .string({ error: 'La contraseña debe ser una cadena de caracteres' })
+  .refine((val) => !/\s+/g.test(val), {
+    error: 'La contraseña no puede contener espacios',
+  })
+  .regex(/^(?=.*[a-z]).+$/, {
+    error: 'La contraseña debe contener al menos una letra minúscula',
+  })
+  .regex(/^(?=.*[A-Z]).+$/, {
+    error: 'La contraseña debe contener al menos una letra mayúscula',
+  })
+  .regex(/^(?=.*[0-9]).+$/, {
+    error: 'La contraseña debe contener al menos un número',
+  })
+  .regex(/^(?=.*\d)(?=.*[$@$!%*?&/])([A-Za-z\d$@$!%*?&/]|[^ ]).+$/, {
+    error:
+      'La contraseña debe contener al menos uno de los siguientes caracteres especiales: «$@$!%*?&/»',
+  })
+
+export const userSelectSchema = z.object({
+  id: z.uuidv7(),
+  handle: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.email(),
+  password: passwordSchema,
+  state: z.enum(['pending', 'enabled', 'disabled']),
+  roleId: z.uuidv7(),
+  createdAt: z.iso.date(),
+  updatedAt: z.iso.date(),
+  deletedAt: z.iso.date().nullable(),
+})
+
+export const userInsertSchema = userSelectSchema
+  .omit({ password: true })
+  .partial({
+    state: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  })
+  .extend({
+    password: passwordSchema.regex(/^.{8,20}$/, {
+      error:
+        'La contraseña debe tener una longitud mínima de 8 caracteres y máxima de 20 caracteres',
+    }),
+  })
+
+export const addUserRequestSchema = userInsertSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+  deletedAt: true,
+})
+
+export type AddUserRequest = z.infer<typeof addUserRequestSchema>
+
+export const editUserRequestSchema = addUserRequestSchema.omit({
+  password: true,
+})
+
+export type EditUserRequest = z.infer<typeof editUserRequestSchema>
+
+export const changePasswordRequestSchema = z.object({
+  id: z.uuidv7(),
+  current: passwordSchema.regex(/^.{8,20}$/, {
+    error:
+      'La contraseña debe tener una longitud mínima de 8 caracteres y máxima de 20 caracteres',
+  }),
+  next: passwordSchema.regex(/^.{8,20}$/, {
+    error:
+      'La contraseña debe tener una longitud mínima de 8 caracteres y máxima de 20 caracteres',
+  }),
+})
+
+export type ChangePasswordRequest = z.infer<typeof changePasswordRequestSchema>
+
+export const authUserRequestSchema = userInsertSchema.pick({
+  handle: true,
+  password: true,
+})
+
+export type AuthUserRequest = z.infer<typeof authUserRequestSchema>
+
+export type AuthResponse = {
+  message: string
+  state: boolean
+  token: string | null
+}
