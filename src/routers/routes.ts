@@ -15,8 +15,8 @@ export const routes: Router = Router()
 
 routes.use('/user', userRouter)
 
-routes.use('/user/permission', permissionRouter)
-routes.use('/user/role', roleRouter)
+routes.use('/permission', permissionRouter)
+routes.use('/role', roleRouter)
 
 routes.use('/user/collaborator/operator/type', operatorTypeRouter)
 routes.use('/user/collaborator/accountant/position', accountantPositionRouter)
