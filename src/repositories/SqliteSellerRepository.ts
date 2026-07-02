@@ -11,101 +11,58 @@ import { sqlite } from './databases.js'
 import { eq } from 'drizzle-orm'
 import type { IUsersRepository } from '../interfaces/index.js'
 
-export type SellerInsert = Omit<
-  typeof sqliteUsersTable.$inferInsert &
-    typeof sqliteCollaboratorsTable.$inferInsert &
-    typeof sqliteSellersTable.$inferInsert,
-  'userId'
->
+export type SellerInsert = {
+  users: typeof sqliteUsersTable.$inferInsert
+  collaborators: typeof sqliteCollaboratorsTable.$inferInsert
+  sellers: typeof sqliteSellersTable.$inferInsert
+}
 
-export type SellerSelect = Omit<
-  typeof sqliteUsersTable.$inferSelect &
-    typeof sqliteCollaboratorsTable.$inferSelect &
-    typeof sqliteSellersTable.$inferSelect,
-  'userId'
->
+export type SellerSelect = {
+  users: typeof sqliteUsersTable.$inferSelect
+  collaborators: typeof sqliteCollaboratorsTable.$inferSelect
+  sellers: typeof sqliteSellersTable.$inferSelect
+}
 
 export class SqliteSellerRepository implements IUsersRepository<Seller> {
   async add(user: Seller): Promise<void> {
-    const {
-      id,
-      handle,
-      firstName,
-      lastName,
-      email,
-      password,
-      state,
-      roleId,
-      createdAt,
-      updatedAt,
-      deletedAt,
-      hierarcyId,
-      businessAreaId,
-      educationDegreeId,
-      contractTypeId,
-      salary,
-      yearsExperience,
-      saleTypeId,
-      commissionRate,
-    } = await this.mapToSellerInsert(user)
+    const { users, collaborators, sellers } = await this.mapToSellerInsert(user)
 
-    const userResult = await sqlite.insert(sqliteUsersTable).values({
-      id,
-      handle,
-      firstName,
-      lastName,
-      email,
-      password,
-      state,
-      roleId,
-      createdAt,
-      updatedAt,
-      deletedAt,
-    })
+    const userResult = await sqlite.insert(sqliteUsersTable).values(users)
 
     if (!userResult.rowsAffected) throw new Error('Algo salio mal')
 
     const collaboratorResult = await sqlite
       .insert(sqliteCollaboratorsTable)
-      .values({
-        userId: id,
-        hierarcyId,
-        businessAreaId,
-        educationDegreeId,
-        contractTypeId,
-        salary,
-        yearsExperience,
-      })
+      .values(collaborators)
 
     if (!collaboratorResult.rowsAffected) throw new Error('Algo salio mal')
 
-    const sellerResult = await sqlite.insert(sqliteSellersTable).values({
-      userId: id,
-      saleTypeId,
-      commissionRate,
-    })
+    const sellerResult = await sqlite.insert(sqliteSellersTable).values(sellers)
 
     if (!sellerResult.rowsAffected) throw new Error('Algo salio mal')
   }
 
   async edit(user: Seller): Promise<void> {
     const {
-      id,
-      handle,
-      firstName,
-      lastName,
-      email,
-      state,
-      roleId,
-      updatedAt,
-      hierarcyId,
-      businessAreaId,
-      educationDegreeId,
-      contractTypeId,
-      salary,
-      yearsExperience,
-      saleTypeId,
-      commissionRate,
+      users: {
+        id,
+        handle,
+        firstName,
+        lastName,
+        email,
+        state,
+        roleId,
+        updatedAt,
+      },
+      collaborators: {
+        hierarcyId,
+        businessAreaId,
+        educationDegreeId,
+        contractTypeId,
+        salary,
+        yearsExperience,
+      },
+      sellers: { saleTypeId, commissionRate },
     } = await this.mapToSellerInsert(user)
 
     const userResult = await sqlite
@@ -159,27 +116,7 @@ export class SqliteSellerRepository implements IUsersRepository<Seller> {
 
   async findAll(): Promise<Seller[]> {
     const sellers = await sqlite
-      .select({
-        id: sqliteUsersTable.id,
-        handle: sqliteUsersTable.handle,
-        firstName: sqliteUsersTable.firstName,
-        lastName: sqliteUsersTable.lastName,
-        email: sqliteUsersTable.email,
-        password: sqliteUsersTable.password,
-        salary: sqliteCollaboratorsTable.salary,
-        yearsExperience: sqliteCollaboratorsTable.yearsExperience,
-        hierarcyId: sqliteCollaboratorsTable.hierarcyId,
-        businessAreaId: sqliteCollaboratorsTable.businessAreaId,
-        educationDegreeId: sqliteCollaboratorsTable.educationDegreeId,
-        contractTypeId: sqliteCollaboratorsTable.contractTypeId,
-        commissionRate: sqliteSellersTable.commissionRate,
-        saleTypeId: sqliteSellersTable.saleTypeId,
-        state: sqliteUsersTable.state,
-        roleId: sqliteUsersTable.roleId,
-        createdAt: sqliteUsersTable.createdAt,
-        updatedAt: sqliteUsersTable.updatedAt,
-        deletedAt: sqliteUsersTable.deletedAt,
-      })
+      .select()
       .from(sqliteSellersTable)
       .innerJoin(
         sqliteCollaboratorsTable,
@@ -199,27 +136,7 @@ export class SqliteSellerRepository implements IUsersRepository<Seller> {
 
   async findOne(id: string): Promise<Seller | null> {
     const [seller] = await sqlite
-      .select({
-        id: sqliteUsersTable.id,
-        handle: sqliteUsersTable.handle,
-        firstName: sqliteUsersTable.firstName,
-        lastName: sqliteUsersTable.lastName,
-        email: sqliteUsersTable.email,
-        password: sqliteUsersTable.password,
-        salary: sqliteCollaboratorsTable.salary,
-        yearsExperience: sqliteCollaboratorsTable.yearsExperience,
-        hierarcyId: sqliteCollaboratorsTable.hierarcyId,
-        businessAreaId: sqliteCollaboratorsTable.businessAreaId,
-        educationDegreeId: sqliteCollaboratorsTable.educationDegreeId,
-        contractTypeId: sqliteCollaboratorsTable.contractTypeId,
-        commissionRate: sqliteSellersTable.commissionRate,
-        saleTypeId: sqliteSellersTable.saleTypeId,
-        state: sqliteUsersTable.state,
-        roleId: sqliteUsersTable.roleId,
-        createdAt: sqliteUsersTable.createdAt,
-        updatedAt: sqliteUsersTable.updatedAt,
-        deletedAt: sqliteUsersTable.deletedAt,
-      })
+      .select()
       .from(sqliteSellersTable)
       .innerJoin(
         sqliteCollaboratorsTable,
@@ -236,49 +153,57 @@ export class SqliteSellerRepository implements IUsersRepository<Seller> {
 
   private async mapToSellerInsert(user: Seller): Promise<SellerInsert> {
     return {
-      id: user.id,
-      handle: user.handle,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      password: await hash(user.password, await genSalt(Number(SALT_ROUNDS))),
-      salary: user.salary,
-      yearsExperience: user.yearsExperience,
-      hierarcyId: user.hierarchyId,
-      businessAreaId: user.businessAreaId,
-      educationDegreeId: user.educationDegreeId,
-      contractTypeId: user.contractTypeId,
-      commissionRate: user.commissionRate,
-      saleTypeId: user.saleTypeId,
-      state: user.state,
-      roleId: user.roleId,
-      createdAt: user.createdAt.toJSON(),
-      updatedAt: user.updatedAt.toJSON(),
-      deletedAt: user.deletedAt?.toJSON() || null,
+      users: {
+        id: user.id,
+        handle: user.handle,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: await hash(user.password, await genSalt(Number(SALT_ROUNDS))),
+        state: user.state,
+        roleId: user.roleId,
+        createdAt: user.createdAt.toJSON(),
+        updatedAt: user.updatedAt.toJSON(),
+        deletedAt: user.deletedAt?.toJSON() || null,
+      },
+      collaborators: {
+        userId: user.id,
+        salary: user.salary,
+        yearsExperience: user.yearsExperience,
+        hierarcyId: user.hierarchyId,
+        businessAreaId: user.businessAreaId,
+        educationDegreeId: user.educationDegreeId,
+        contractTypeId: user.contractTypeId,
+      },
+      sellers: {
+        userId: user.id,
+        commissionRate: user.commissionRate,
+        saleTypeId: user.saleTypeId,
+      },
     }
   }
 
   private async mapToSeller(user: SellerSelect): Promise<Seller> {
     return new Seller(
-      user.id,
-      user.handle,
-      user.firstName,
-      user.lastName,
-      user.email,
-      user.password,
-      user.salary,
-      user.yearsExperience,
-      user.hierarcyId,
-      user.businessAreaId,
-      user.educationDegreeId,
-      user.contractTypeId,
-      user.commissionRate,
-      user.saleTypeId,
-      user.state,
-      user.roleId,
-      getTemporalFrom(user.createdAt),
-      getTemporalFrom(user.updatedAt),
-      !user.deletedAt ? null : getTemporalFrom(user.deletedAt)
+      user.users.id,
+      user.users.handle,
+      user.users.firstName,
+      user.users.lastName,
+      user.users.email,
+      user.users.password,
+      user.collaborators.salary,
+      user.collaborators.yearsExperience,
+      user.collaborators.hierarcyId,
+      user.collaborators.businessAreaId,
+      user.collaborators.educationDegreeId,
+      user.collaborators.contractTypeId,
+      user.sellers.commissionRate,
+      user.sellers.saleTypeId,
+      user.users.state,
+      user.users.roleId,
+      getTemporalFrom(user.users.createdAt),
+      getTemporalFrom(user.users.updatedAt),
+      !user.users.deletedAt ? null : getTemporalFrom(user.users.deletedAt)
     )
   }
 }
