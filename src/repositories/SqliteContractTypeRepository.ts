@@ -21,7 +21,10 @@ export class SqliteContractTypeRepository implements IBaseRepository<ContractTyp
 
     const { rowsAffected } = await sqlite
       .update(sqliteContractTypesTable)
-      .set({})
+      .set({
+        name: contractType.name,
+        description: contractType.description,
+      })
       .where(eq(sqliteContractTypesTable.id, contractType.id))
 
     if (!rowsAffected) throw new Error('Algo salio mal')

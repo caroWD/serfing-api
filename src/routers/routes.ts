@@ -10,19 +10,23 @@ import { educationDegreeRouter } from './education-degree-router.js'
 import { businessAreaRouter } from './business-area-router.js'
 import { hierarchyRouter } from './hierarchy-router.js'
 import { userRouter } from './user-router.js'
+import { collaboratorRouter } from './collaborator-router.js'
 
 export const routes: Router = Router()
 
 routes.use('/user', userRouter)
 
-routes.use('/user/permission', permissionRouter)
-routes.use('/user/role', roleRouter)
+routes.use('/users/permission', permissionRouter)
+routes.use('/users/role', roleRouter)
 
-routes.use('/user/collaborator/operator/type', operatorTypeRouter)
-routes.use('/user/collaborator/accountant/position', accountantPositionRouter)
-routes.use('/user/collaborator/engineer/position', engineerPositionRouter)
-routes.use('/user/collaborator/seller/sale-type', saleTypeRouter)
-routes.use('/user/collaborator/contract-type', contractTypeRouter)
-routes.use('/user/collaborator/education-degree', educationDegreeRouter)
-routes.use('/user/collaborator/business-area', businessAreaRouter)
-routes.use('/user/collaborator/hierarchy', hierarchyRouter)
+routes.use('/users/collaborator', collaboratorRouter)
+
+routes.use('/user/collaborators/contract-type', contractTypeRouter)
+routes.use('/user/collaborators/education-degree', educationDegreeRouter)
+routes.use('/user/collaborators/business-area', businessAreaRouter)
+routes.use('/user/collaborators/hierarchy', hierarchyRouter)
+
+routes.use('/user/collaborator/operators/type', operatorTypeRouter)
+routes.use('/user/collaborator/accountants/position', accountantPositionRouter)
+routes.use('/user/collaborator/engineers/position', engineerPositionRouter)
+routes.use('/user/collaborator/sellers/sale-type', saleTypeRouter)
