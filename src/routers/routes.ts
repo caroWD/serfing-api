@@ -14,6 +14,7 @@ import { collaboratorRouter } from './collaborator-router.js'
 import { sellerRouter } from './seller-router.js'
 import { engineerRouter } from './engineer-router.js'
 import { accountantRouter } from './accountant-router.js'
+import { operatorRouter } from './operator-router.js'
 
 export const routes: Router = Router()
 
@@ -29,6 +30,7 @@ routes.use('/user/collaborators/education-degree', educationDegreeRouter)
 routes.use('/user/collaborators/business-area', businessAreaRouter)
 routes.use('/user/collaborators/hierarchy', hierarchyRouter)
 
+routes.use('/user/collaborators/operator', operatorRouter)
 routes.use('/user/collaborator/operators/type', operatorTypeRouter)
 
 routes.use('/user/collaborators/accountant', accountantRouter)
