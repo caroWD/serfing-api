@@ -19,6 +19,7 @@ export class Accountant extends Collaborator {
     contractTypeId: string,
     accountantPositionId: string,
     state: State,
+    roleId: string,
     createdAt: Tempo,
     updatedAt: Tempo,
     deletedAt: TempoDeleted
@@ -37,6 +38,7 @@ export class Accountant extends Collaborator {
       educationDegreeId,
       contractTypeId,
       state,
+      roleId,
       createdAt,
       updatedAt,
       deletedAt

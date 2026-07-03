@@ -6,14 +6,41 @@ import { accountantPositionRouter } from './accountant-position-router.js'
 import { engineerPositionRouter } from './engineer-position-router.js'
 import { saleTypeRouter } from './sale-type-router.js'
 import { contractTypeRouter } from './contract-type-router.js'
+import { educationDegreeRouter } from './education-degree-router.js'
+import { businessAreaRouter } from './business-area-router.js'
+import { hierarchyRouter } from './hierarchy-router.js'
+import { userRouter } from './user-router.js'
+import { collaboratorRouter } from './collaborator-router.js'
+import { sellerRouter } from './seller-router.js'
+import { engineerRouter } from './engineer-router.js'
+import { accountantRouter } from './accountant-router.js'
+import { operatorRouter } from './operator-router.js'
+import { authMiddleware } from '../middlewares/index.js'
 
 export const routes: Router = Router()
 
-routes.use('/user/permission', permissionRouter)
-routes.use('/user/role', roleRouter)
+routes.use('/user', userRouter)
 
-routes.use('/user/collaborator/operator/type', operatorTypeRouter)
-routes.use('/user/collaborator/accountant/position', accountantPositionRouter)
-routes.use('/user/collaborator/engineer/position', engineerPositionRouter)
-routes.use('/user/collaborator/seller/type', saleTypeRouter)
-routes.use('/user/collaborator/contract-type', contractTypeRouter)
+routes.use('/users/permission', permissionRouter)
+routes.use('/users/role', roleRouter)
+
+routes.use(authMiddleware)
+
+routes.use('/users/collaborator', collaboratorRouter)
+
+routes.use('/user/collaborators/contract-type', contractTypeRouter)
+routes.use('/user/collaborators/education-degree', educationDegreeRouter)
+routes.use('/user/collaborators/business-area', businessAreaRouter)
+routes.use('/user/collaborators/hierarchy', hierarchyRouter)
+
+routes.use('/user/collaborators/operator', operatorRouter)
+routes.use('/user/collaborator/operators/type', operatorTypeRouter)
+
+routes.use('/user/collaborators/accountant', accountantRouter)
+routes.use('/user/collaborator/accountants/position', accountantPositionRouter)
+
+routes.use('/user/collaborators/engineer', engineerRouter)
+routes.use('/user/collaborator/engineers/position', engineerPositionRouter)
+
+routes.use('/user/collaborators/seller', sellerRouter)
+routes.use('/user/collaborator/sellers/sale-type', saleTypeRouter)

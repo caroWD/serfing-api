@@ -9,13 +9,13 @@ export class SaleType extends Base {
 export class SaleTypeNotFoundError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'PermissionNotFoundError'
+    this.name = 'SaleTypeNotFoundError'
   }
 }
 
 export class SaleTypeAlreadyExistsError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'PermissionAlreadyExistsError'
+    this.name = 'SaleTypeAlreadyExistsError'
   }
 }

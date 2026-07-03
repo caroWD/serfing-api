@@ -1,9 +1,12 @@
 import { Router } from 'express'
 import { RoleController } from '../controllers/index.js'
+import { authAdminMiddleware } from '../middlewares/index.js'
 
 const roleController = new RoleController()
 
 export const roleRouter: Router = Router()
+
+roleRouter.use(authAdminMiddleware)
 
 roleRouter.post('/', roleController.add)
 roleRouter.post('/permission', roleController.addPermissionToRole)

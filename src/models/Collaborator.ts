@@ -1,6 +1,6 @@
 import { User, type State, type Tempo, type TempoDeleted } from './User.js'
 
-export abstract class Collaborator extends User {
+export class Collaborator extends User {
   private _salary: number
   private _yearsExperience: number
   private _hierarchyId: string
@@ -22,6 +22,7 @@ export abstract class Collaborator extends User {
     educationDegreeId: string,
     contractTypeId: string,
     state: State,
+    roleId: string,
     createdAt: Tempo,
     updatedAt: Tempo,
     deletedAt: TempoDeleted
@@ -34,6 +35,7 @@ export abstract class Collaborator extends User {
       email,
       password,
       state,
+      roleId,
       createdAt,
       updatedAt,
       deletedAt
