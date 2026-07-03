@@ -15,6 +15,7 @@ import { sellerRouter } from './seller-router.js'
 import { engineerRouter } from './engineer-router.js'
 import { accountantRouter } from './accountant-router.js'
 import { operatorRouter } from './operator-router.js'
+import { authMiddleware } from '../middlewares/index.js'
 
 export const routes: Router = Router()
 
@@ -22,6 +23,8 @@ routes.use('/user', userRouter)
 
 routes.use('/users/permission', permissionRouter)
 routes.use('/users/role', roleRouter)
+
+routes.use(authMiddleware)
 
 routes.use('/users/collaborator', collaboratorRouter)
 

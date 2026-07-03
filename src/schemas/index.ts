@@ -1,2 +1,7 @@
 export * from './base-schema.js'
 export * from './user-schema.js'
+export * from './accountant-schema.js'
+export * from './collaborator-schema.js'
+export * from './engineer-schema.js'
+export * from './operator-schema.js'
+export * from './seller-schema.js'

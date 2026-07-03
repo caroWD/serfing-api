@@ -1,7 +1,12 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import { PORT } from './config/index.js'
-import { corsMiddleware, errorHandlerMiddleware } from './middlewares/index.js'
+import {
+  tokenMiddleware,
+  corsMiddleware,
+  errorHandlerMiddleware,
+  sessionMiddleware,
+} from './middlewares/index.js'
 import { routes } from './routers/index.js'
 
 const api = express()
@@ -9,6 +14,8 @@ const api = express()
 api.use(express.json())
 api.use(corsMiddleware())
 api.use(cookieParser())
+api.use(sessionMiddleware())
+api.use(tokenMiddleware)
 
 api.use('/api/v01', routes)
 
