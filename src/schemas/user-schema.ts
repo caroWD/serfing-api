@@ -170,3 +170,114 @@ export const editSellerRequestSchema = addSellerRequestSchema.omit({
 })
 
 export type EditSellerRequest = z.infer<typeof editSellerRequestSchema>
+
+export const engineerSelectSchema = collaboratorSelectSchema.extend({
+  engineerPositionId: z.uuidv7(),
+})
+
+export type EngineerSelect = z.infer<typeof engineerSelectSchema>
+
+export const engineerInsertSchema = engineerSelectSchema
+  .omit({ password: true })
+  .partial({
+    state: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  })
+  .extend({
+    password: passwordSchema.regex(/^.{8,20}$/, {
+      error:
+        'La contraseña debe tener una longitud mínima de 8 caracteres y máxima de 20 caracteres',
+    }),
+  })
+
+export type EngineerInser = z.infer<typeof engineerInsertSchema>
+
+export const addEngineerRequestSchema = engineerInsertSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+  deletedAt: true,
+})
+
+export type AddEngineerRequest = z.infer<typeof addEngineerRequestSchema>
+
+export const editEngineerRequestSchema = addEngineerRequestSchema.omit({
+  password: true,
+})
+
+export type EditEngineerRequest = z.infer<typeof editEngineerRequestSchema>
+
+export const accountantSelectSchema = collaboratorSelectSchema.extend({
+  accountantPositionId: z.uuidv7(),
+})
+
+export type AccountantSelect = z.infer<typeof accountantSelectSchema>
+
+export const accountantInsertSchema = accountantSelectSchema
+  .omit({ password: true })
+  .partial({
+    state: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  })
+  .extend({
+    password: passwordSchema.regex(/^.{8,20}$/, {
+      error:
+        'La contraseña debe tener una longitud mínima de 8 caracteres y máxima de 20 caracteres',
+    }),
+  })
+
+export type AccountantInsert = z.infer<typeof accountantInsertSchema>
+
+export const addAccountantRequestSchema = accountantInsertSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+  deletedAt: true,
+})
+
+export type AddAccountantRequest = z.infer<typeof addAccountantRequestSchema>
+
+export const editAccountantRequestSchema = addAccountantRequestSchema.omit({
+  password: true,
+})
+
+export type EditAccountantRequest = z.infer<typeof editAccountantRequestSchema>
+
+export const operatorSelectSchema = collaboratorSelectSchema.extend({
+  operatorTypeId: z.uuidv7(),
+})
+
+export type OperatorSelect = z.infer<typeof operatorSelectSchema>
+
+export const operatorInsertSchema = operatorSelectSchema
+  .omit({ password: true })
+  .partial({
+    state: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  })
+  .extend({
+    password: passwordSchema.regex(/^.{8,20}$/, {
+      error:
+        'La contraseña debe tener una longitud mínima de 8 caracteres y máxima de 20 caracteres',
+    }),
+  })
+
+export type OperatorInsert = z.infer<typeof operatorInsertSchema>
+
+export const addOperatorRequestSchema = operatorInsertSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+  deletedAt: true,
+})
+
+export type AddOperatorRequest = z.infer<typeof addOperatorRequestSchema>
+
+export const editOperatorRequestSchema = addOperatorRequestSchema.omit({
+  password: true,
+})
+
+export type EditOperatorRequest = z.infer<typeof editOperatorRequestSchema>
