@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { UserService } from '../services/index.js'
+import { RoleService, UserService } from '../services/index.js'
 import type {
   AddUserRequest,
   AuthResponse,
@@ -16,7 +16,7 @@ import {
   UserNotFoundError,
   UserUnauthorizedError,
 } from '../models/index.js'
-import { SignJWT } from 'jose'
+import { SignJWT, type JWTPayload } from 'jose'
 import {
   JWT_ALG,
   JWT_CLAIM,
@@ -27,6 +27,7 @@ import {
 import type { sqliteUsersTable } from '../db/schemas/index.js'
 
 const userService = new UserService()
+const roleService = new RoleService()
 
 export class UserController {
   async add(
@@ -35,6 +36,13 @@ export class UserController {
     next: NextFunction
   ): Promise<void> {
     try {
+      const auth = req.session.auth as JWTPayload
+
+      const role = await roleService.findOne({ id: auth['roleId'] as string })
+
+      if (role.name !== 'system:admin')
+        throw new UserUnauthorizedError('Usuario no autorizado')
+
       await userService.add(req.body)
 
       res

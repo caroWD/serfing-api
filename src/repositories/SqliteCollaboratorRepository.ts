@@ -9,7 +9,7 @@ import { sqlite } from './databases.js'
 import { genSalt, hash } from 'bcryptjs'
 import { SALT_ROUNDS } from '../config/index.js'
 import { getTemporalFrom } from '../helpers/index.js'
-import type { CollaboratorSelect } from '../schemas/user-schema.js'
+import type { CollaboratorSelect } from '../schemas/index.js'
 
 export class SqliteCollaboratorRepository implements IUsersRepository<Collaborator> {
   async add(user: Collaborator): Promise<void> {
